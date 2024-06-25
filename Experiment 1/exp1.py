@@ -1,41 +1,16 @@
 # n-queens problem
 
-def isSafe(board, row, col):
-    for i in range(col):
-        if board[row][i] == 1:
-            return False
-    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
-    for i, j in zip(range(row, n, 1), range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
-    return True
-
-def solveNQUtil(board, col):
-    if col >= n:
-        return True
-    for i in range(n):
-        if isSafe(board, i, col):
-            board[i][col] = 1
-            if solveNQUtil(board, col + 1) == True:
-                return True
-            board[i][col] = 0
-    return False
-
-def solveNQ(n):
-    board = [[0 for j in range(n)] for i in range(n)]
-    if solveNQUtil(board, 0) == False:
-        print("Solution does not exist")
-        return False
-    printSolution(board)
-    return True
-
-def printSolution(board):
-    for i in range(n):
-        for j in range(n):
-            print(board[i][j], end=" ")
-        print()
-
-n = int(input("Enter the size of n:\t"))
-solveNQ(n)
+from itertools import permutations
+n=int(input("Enter value of n : "))
+for perm in permutations([i for i in range(n)]):
+    count=0
+    for i,j in enumerate(perm):
+        for k,l in enumerate(perm):
+            if i+j==k+l or i-j==k-l:
+                count+=1
+    if count==n:
+        for a in range(n):
+            for b in range(n):
+                print(" Q " if perm[a]==b else " . ",end="")
+            print()
+        print("\n")

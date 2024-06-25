@@ -1,76 +1,68 @@
-import numpy as np
+# connect-four
 
-def create_board():
-    return np.zeros((6,7), dtype=int)
+def check_win(matrix, i, j, s):
+    try:
+        if all(matrix[i + k][j] == s for k in range(4)):
+            return True
+    except:
+        pass
+    try:
+        if all(matrix[i][j + k] == s for k in range(4)):
+            return True
+    except:
+        pass
+    try:
+        if all(matrix[i + k][j - k] == s for k in range(4)):
+            return True
+    except:
+        pass
+    try:
+        if all(matrix[i + k][j + k] == s for k in range(4)):
+            return True
+    except:
+        pass
+    return False
 
-def drop_piece(board, row, col, piece):
-    board[row][col] = piece
+def display_board(matrix):
+    for i in matrix:
+        print(" ".join(i))
+from random import randint
+list1=[6]*7
+matrix=[[" . "]*7 for _ in range(6)]
+player_positions=[]
+computer_positions=[]
+flag=1
+while flag==1:
+    try:
+        pos=int(input("Enter the column : "))  
+        list1[pos]-=1
+        matrix[list1[pos]][pos]=" P "
+        print(" ",'   '.join(f"{i}" for i in range(7)),sep="") #This is to display the top 0 1 2 3... numbering
+        display_board(matrix)
+        player_positions.append((list1[pos],pos))
+        for i,j in player_positions[::-1]:
+            if check_win(matrix,i,j," P "):
+                print("You win ")
+                print(f"Position : row {i} column {j}")
+                flag=0
+                exit()
+        print("Computer move : ")
+        while True:
+            num=randint(0,6)
+            if list1[num]-1>=0:
+                break
+        list1[num]-=1
+        matrix[list1[num]][num]=" C "
+        print(" ",'   '.join(f"{i}" for i in range(7)),sep="") #This is to display the top 0 1 2 3... numbering
+        display_board(matrix)
+        computer_positions.append((list1[num],num))
+        for i,j in computer_positions[::-1]:
+            if check_win(matrix,i,j," C "):
+                print("Computer Win ")
+                print(f"Position : row {i} column {j}")
 
-def is_valid_location(board, col):
-    return board[5][col] == 0
-
-def get_next_open_row(board, col):
-    for r in range(6):
-        if board[r][col] == 0:
-            return r
-
-def print_board(board):
-    print(np.flip(board, 0))
-
-def winning_move(board, piece):
-    # Check horizontal locations
-    for c in range(4):
-        for r in range(6):
-            if board[r][c] == piece and board[r][c+1] == piece and board[r][c+2] == piece and board[r][c+3] == piece:
-                return True
-
-    # Check vertical locations
-    for c in range(7):
-        for r in range(3):
-            if board[r][c] == piece and board[r+1][c] == piece and board[r+2][c] == piece and board[r+3][c] == piece:
-                return True
-
-    # Check positively sloped diagonals
-    for c in range(4):
-        for r in range(3):
-            if board[r][c] == piece and board[r+1][c+1] == piece and board[r+2][c+2] == piece and board[r+3][c+3] == piece:
-                return True
-
-    # Check negatively sloped diagonals
-    for c in range(4):
-        for r in range(3, 6):
-            if board[r][c] == piece and board[r-1][c+1] == piece and board[r-2][c+2] == piece and board[r-3][c+3] == piece:
-                return True
-
-board = create_board()
-print_board(board)
-game_over = False
-turn = 0
-
-while not game_over:
-    # Ask for Player 1 input
-    if turn == 0:
-        col = int(input("Player 1 make your selection (0-6):"))
-
-        if is_valid_location(board, col):
-            row = get_next_open_row(board, col)
-            drop_piece(board, row, col, 1)
-
-            if winning_move(board, 1):
-                print("Player 1 wins!")
-                game_over = True
-    else:
-        # Ask for Player 2 input
-        col = int(input("Player 2 make your selection (0-6):"))
-
-        if is_valid_location(board, col):
-            row = get_next_open_row(board, col)
-            drop_piece(board, row, col, 2)
-
-            if winning_move(board, 2):
-                print("Player 2 wins!")
-                game_over = True
-
-    print_board(board)
-    turn += 1
-    turn %= 2
+                flag=0
+                exit()
+    except:
+        print("Game over")
+        break

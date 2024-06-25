@@ -1,39 +1,20 @@
 # hangman game
 
-import random
-word_list = ['python', 'java', 'swift', 'javascript', 'hangman']
-
-def choose_word():
-    return random.choice(word_list)
-
-def display_word(word, guessed_letters):
-    display = ''.join([letter if letter in guessed_letters else '_' for letter in word])
-    return display
-
-def hangman():
-    word = choose_word()
-    guessed_letters = set()
-    attempts = 6
-    print("Welcome to Hangman!")
-    while attempts > 0:
-        print("\nCurrent word:", display_word(word, guessed_letters))
-        print("Guessed letters:", ' '.join(sorted(guessed_letters)))
-        print(f"Remaining attempts: {attempts}")
-        guess = input("Guess a letter: ").lower()
-        if guess in guessed_letters:
-            print("You already guessed that letter. Try again.")
-            continue
-        if guess in word:
-            print("Good guess!")
-            guessed_letters.add(guess)
-            if all(letter in guessed_letters for letter in word):
-                print(f"Congratulations! You guessed the word: {word}")
-                break
-        else:
-            print("Incorrect guess.")
-            guessed_letters.add(guess)
-            attempts -= 1
-        if attempts == 0:
-            print(f"Sorry, you ran out of attempts. The word was: {word}")
-            
-hangman()
+word=input("PLAYER 1 \n Enter word : ")
+print("\n"*10)
+life=6
+letters=set()
+print("PLAYER2")
+while life>0:
+    print("LIFE : ","|"*life)
+    print("Word :  ","".join(i if i in letters else "_" for i in word ))
+    guess=input("Guess a letter : ")
+    if guess in word:
+        letters.add(guess)
+    else:
+        life-=1
+    if len(set(word))==len(letters):
+        print("You guessed the word : ",word)
+        break
+if life==0:
+    print(f"Game over, the word was {word} ")

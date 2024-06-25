@@ -1,4 +1,5 @@
-#Q11) Constraint Satisfaction Problem
+# constraint satisfaction problem
+
 import random
 
 def backtrack(assignment, variables, domain, constraints):
