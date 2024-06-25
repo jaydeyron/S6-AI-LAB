@@ -4,7 +4,6 @@ possibilites=itertools.permutations(["B","C","D","E","F"])
 mincost,minpath=float('inf'),float('inf')
 for i in possibilites:
     new_cost=graph['A'][i[0]]+graph[i[0]][i[1]]+graph[i[1]][i[2]]+graph[i[2]][i[3]]+graph[i[3]][i[4]]+graph[i[3]]['A']
-    print(new_cost,i)
     if new_cost<mincost:
         mincost,minpath=new_cost,i
 print(mincost,tuple('A')+minpath+tuple('A'))

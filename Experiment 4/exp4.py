@@ -10,7 +10,7 @@ visited=set()
 queue=[start_node]
 while queue:
     node=queue.pop(0)
-    print(node)
+    print(node, end=" ")
     if node not in visited:
         visited.add(node)
         for i in graph[node]:

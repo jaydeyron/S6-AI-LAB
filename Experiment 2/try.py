@@ -1,14 +1,14 @@
-# water jug problem
-
 import math
-jug1=int(input("Enter capacity of first jug: "))
-jug2=int(input("Enter capacity of second jug: "))
+
+jug1=int(input("Enter the capacity of jug 1: "))
+jug2=int(input("Enter the capacity of jug 2: "))
 target=int(input("Enter the target: "))
 steps=[]
+
 if (target>jug1 and target>jug2) or target%(math.gcd(jug1,jug2))!=0:
-    print("Not possible to measure")
-elif (target==jug2 or target==jug1):
-    steps.append((0,jug2) if target==jug2 else (jug1,0))
+    print("Not possible")
+elif target==jug1 or target==jug2:
+    steps.append((jug1,0) if target==jug1 else (0,jug2))
 else:
     x,y=0,0
     while x!=target and y!=target:
@@ -23,4 +23,4 @@ else:
         steps.append((x,y))
 for i in steps:
     print(i)
-print("Number of steps: ",len(steps)-1)
+print("No. of steps: ", len(steps)-1)
